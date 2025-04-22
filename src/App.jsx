@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import "./App.css";
 
 const letters = "abcdefghijklmnopqrstuvwxyz";
@@ -7,13 +7,16 @@ const symbols = `!@#$%^&\*()-\_=+[]{}|;:'\\",.<>?/~`;
 
 function App() {
   // Campi controllati
-  const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [specialization, setSpecialization] = useState("");
-  const [experienceYears, setExperienceYears] = useState("");
   const [description, setDescription] = useState("");
 
+  // Campi non controllati
+  const fullNameReF = useRef();
+  const specializationRef = useRef();
+  const experienceYearsRef = useRef();
+
+  // Validazione
   const isUsernameValid = useMemo(() => {
     const charsValid = username
       .split("")
@@ -34,11 +37,17 @@ function App() {
   }, [password]);
 
   const isDescriptionValid = useMemo(() => {
-    return description.trim().length >= 100 && description.trim() < 100;
+    return description.trim().length >= 100 && description.trim().length < 1000;
   }, [description]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Valori non controllati
+    const fullName = fullNameReF.current.value;
+    const specialization = specializationRef.current.value;
+    const experienceYears = experienceYearsRef.current.value;
+
     if (
       !fullName.trim() ||
       !username.trim() ||
@@ -71,11 +80,7 @@ function App() {
         <form onSubmit={handleSubmit}>
           <label htmlFor="">
             <p>Nome Completo</p>
-            <input
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
+            <input type="text" ref={fullNameReF} />
           </label>
           <label htmlFor="">
             <p>UserName</p>
@@ -107,19 +112,9 @@ function App() {
               </p>
             )}
           </label>
-          {password.trim() && (
-            <p style={{ color: isPasswordValid ? "green" : "red" }}>
-              {isPasswordValid
-                ? "Password valida"
-                : "Deve contenere almeno 8 caratteri alfanumerici, una lettera, un numero, un simbolo."}
-            </p>
-          )}
           <label htmlFor="">
             <p>Specialization</p>
-            <select
-              value={specialization}
-              onChange={(e) => setSpecialization(e.target.value)}
-            >
+            <select ref={specializationRef}>
               <option value="Full Stack">Full Stack</option>
               <option value="Front-end">Front-end</option>
               <option value="Back-end">Back-end</option>
@@ -127,11 +122,7 @@ function App() {
           </label>
           <label htmlFor="">
             <p>Experience Years</p>
-            <input
-              type="number"
-              value={experienceYears}
-              onChange={(e) => setExperienceYears(e.target.value)}
-            />
+            <input type="number" ref={experienceYearsRef} />
           </label>
           <label htmlFor="">
             <p>Description</p>
@@ -143,7 +134,7 @@ function App() {
               <p style={{ color: isDescriptionValid ? "green" : "red" }}>
                 {isDescriptionValid
                   ? "Descrizione valida"
-                  : "Deve contenere almeno 100 caratteri e menno 1000."}
+                  : "Deve contenere almeno 100 caratteri e meno 1000."}
               </p>
             )}
           </label>
