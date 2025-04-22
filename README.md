@@ -18,3 +18,18 @@ _Premessa_: Stai sviluppando un form di registrazione per una piattaforma dedica
 - La Specializzazione sia selezionata
 
 3. Al submit, se il form è valido, stampa in console i dati.
+
+# Milestone 2: Validare in tempo reale
+
+1. Aggiungere la validazione in tempo reale dei seguenti campi:
+
+- Username: Deve contenere solo caratteri alfanumerici e almeno 6 caratteri (no spazi o simboli).
+- Password: Deve contenere almeno 8 caratteri, 1 lettera, 1 numero e 1 simbolo.
+- Descrizione: Deve contenere tra 100 e 1000 caratteri (senza spazi iniziali e finali).
+
+Suggerimento: Per semplificare la validazione, puoi definire tre stringhe con i caratteri validi e usare .includes() per controllare se i caratteri appartengono a una di queste categorie:
+const letters = "abcdefghijklmnopqrstuvwxyz";
+const numbers = "0123456789";
+const symbols = "!@#$%^&\*()-\_=+[]{}|;:'\\",.<>?/`~";
+
+2. Per ciascuno dei campi validati in tempo reale, mostrare un messaggio di errore (rosso) nel caso non siano validi, oppure un messaggio di conferma (verde) nel caso siano validi.
